@@ -341,6 +341,149 @@ footer{margin-top:55px}
 </style>
 </style>
 <meta name="theme-color" content="#1F3D2B">
+
+<style>
+/* Simple reference-style Coast Bitez homepage */
+body{background:#fbf7ee}
+.topbar{background:#07552f;min-height:42px;padding:0 5%;font-size:.78rem}
+header{background:#fff;position:sticky;top:0;z-index:50;border-bottom:1px solid #eee3d2}
+.nav-wrap{min-height:82px;padding:10px 5%}
+.brand-logo{width:60px;height:60px;flex-basis:60px}
+.brand .name{font-size:1.25rem}
+.menu-btn{font-size:2rem}
+.reference-hero{
+  min-height:690px;
+  background:
+    radial-gradient(circle at 82% 20%,rgba(196,230,93,.18),transparent 28%),
+    linear-gradient(135deg,#063a20 0%,#0d5a30 52%,#174e2e 100%);
+  overflow:hidden;
+  color:#fff;
+}
+.reference-hero::before{
+  content:"";
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 18% 88%,rgba(4,28,16,.55),transparent 42%),
+    radial-gradient(ellipse at 90% 82%,rgba(255,177,24,.16),transparent 34%);
+  z-index:0;
+}
+.hero-leaf-glow{
+  position:absolute;width:520px;height:520px;right:-170px;top:-160px;
+  border-radius:50%;background:rgba(139,199,71,.15);filter:blur(4px);
+}
+.reference-hero .hero-inner{
+  max-width:1280px;
+  grid-template-columns:1fr 1.05fr;
+  gap:28px;
+  padding:62px 5% 42px;
+  align-items:center;
+}
+.reference-hero .hero-copy{max-width:620px;position:relative;z-index:4}
+.hero-kicker{
+  display:inline-block;background:#e87516;color:#fff;padding:7px 16px;
+  border-radius:18px 5px 18px 5px;font-size:.8rem;font-weight:800;
+  letter-spacing:.12em;margin-bottom:14px;
+}
+.reference-hero h1{font-size:clamp(2.6rem,5.5vw,4.55rem);line-height:1.02;margin:0 0 18px}
+.reference-hero h1 em{color:#ff941d;text-decoration:none}
+.reference-hero p.lead{font-size:1.03rem;line-height:1.65;max-width:570px;margin:0 0 18px;color:#f5f3ea}
+.hero-points{display:flex;flex-direction:column;gap:9px;margin:12px 0 20px;font-weight:600}
+.hero-points span{display:block}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+.hero-actions .btn{min-width:260px;justify-content:space-between;padding:14px 20px}
+.hero-shop-btn{background:#ff8b12;color:#fff;border:0}
+.hero-wa-btn{background:transparent;border:2px solid #fff;color:#fff}
+.hero-phone-banner{
+  margin-top:22px;display:inline-flex;align-items:center;gap:12px;
+  padding:10px 18px;background:#0a6b38;border-radius:28px 8px 28px 8px;
+  border:2px solid rgba(255,174,30,.75);font-size:1rem
+}
+.hero-phone-banner strong{font-size:1.35rem}
+.hero-phone-banner span{color:#ffd33e;font-weight:800}
+.reference-visual{position:relative;min-height:520px;display:flex;align-items:flex-end;justify-content:center;z-index:2}
+.hero-snack-art{
+  width:min(610px,100%);border-radius:42% 42% 18% 18%;
+  overflow:hidden;transform:rotate(1deg);box-shadow:0 25px 60px rgba(0,0,0,.28);
+  border:8px solid rgba(255,255,255,.25);background:#f7efe2
+}
+.hero-snack-art img{width:100%;height:420px;object-fit:cover;object-position:center 48%}
+.snack-badge{
+  position:absolute;right:2%;top:4%;z-index:5;
+  color:#fff;font-family:'Lora',serif;font-size:1.7rem;line-height:1.05;
+  font-weight:700;text-align:center;transform:rotate(8deg);
+  text-shadow:0 3px 10px rgba(0,0,0,.25)
+}
+.snack-badge::after{content:"✦";display:block;color:#ffb41f;font-family:Poppins;font-size:2rem}
+.hero-tagline{
+  position:absolute;right:-1%;bottom:1%;z-index:5;
+  background:#ffb51e;color:#07552f;padding:14px 28px;
+  border-radius:48% 8% 48% 8%;font-size:1.2rem;font-weight:800;
+  transform:rotate(-5deg);box-shadow:0 12px 30px rgba(0,0,0,.18)
+}
+.hero-tagline b{font-size:1.35rem}
+.section.products-modern{background:#fbf7ee;padding:44px 0 58px}
+.products-heading{margin-bottom:24px}
+.products-heading h2{font-size:clamp(2rem,4vw,3rem)}
+.products-heading p:not(.eyebrow){font-size:.95rem}
+.product-tools{margin-bottom:22px}
+.product-search{min-height:44px}
+.filter{padding:9px 12px}
+.product-dynamic-grid{gap:14px}
+.dynamic-card{border-radius:16px}
+.dynamic-art{height:150px}
+.dynamic-body{padding:13px}
+.dynamic-body p{display:none}
+.dynamic-bottom{margin-top:8px}
+.order-btn{background:#08713d;color:#fff}
+.cta{border-radius:0;margin:0;background:#07552f}
+footer{margin-top:0}
+@media(max-width:900px){
+  .reference-hero{min-height:auto}
+  .reference-hero .hero-inner{grid-template-columns:1fr;padding:48px 5% 34px}
+  .reference-visual{min-height:390px}
+  .hero-snack-art{width:min(620px,96%);border-radius:28px}
+  .hero-snack-art img{height:330px}
+  .snack-badge{right:5%;top:0}
+  .hero-tagline{right:4%;bottom:0}
+}
+@media(max-width:640px){
+  .topbar{display:none}
+  .nav-wrap{min-height:74px;padding:8px 4%;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+  .brand-logo{width:52px;height:52px;flex-basis:52px}
+  .brand .name{font-size:1.05rem}
+  .brand .name span{font-size:.52rem}
+  .reference-hero .hero-inner{padding:36px 5% 26px;gap:10px}
+  .hero-kicker{font-size:.7rem;padding:6px 12px}
+  .reference-hero h1{font-size:clamp(2.35rem,11vw,3.3rem)}
+  .reference-hero p.lead{font-size:.92rem}
+  .hero-points{font-size:.88rem;gap:7px}
+  .hero-actions{display:flex;flex-direction:column;gap:9px}
+  .hero-actions .btn{width:100%;min-width:0}
+  .hero-phone-banner{width:100%;justify-content:center;margin-top:15px}
+  .hero-phone-banner strong{font-size:1.15rem}
+  .reference-visual{min-height:330px;margin-top:2px}
+  .hero-snack-art{width:100%;border-width:5px;border-radius:26px}
+  .hero-snack-art img{height:245px}
+  .snack-badge{font-size:1.25rem;right:2%;top:-5px}
+  .hero-tagline{font-size:.95rem;padding:10px 17px;right:0;bottom:-3px}
+  .hero-tagline b{font-size:1.05rem}
+  .products-modern{padding-top:34px!important}
+  .products-heading{text-align:center}
+  .products-heading .btn{width:100%;justify-content:center}
+  .product-tools{display:none}
+  .product-dynamic-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .dynamic-art{height:112px}
+  .dynamic-body{padding:10px}
+  .dynamic-body h3{font-size:.88rem}
+  .dynamic-price{font-size:.92rem}
+  .order-btn{font-size:.72rem;padding:7px 10px}
+}
+@media(max-width:390px){
+  .product-dynamic-grid{grid-template-columns:repeat(2,1fr)}
+  .dynamic-art{height:100px}
+}
+</style>
+
 </head>
 <body>
 
@@ -362,50 +505,50 @@ footer{margin-top:55px}
     <nav class="links">
       <a href="#home">Home</a>
       <a href="#products">Products</a>
-      <a href="#benefits">Benefits</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
-      <a class="btn btn-primary" href="#contact" style="padding:9px 20px">Order Now</a>
     </nav>
   </div>
 </header>
 
 <main>
-  <section class="hero" id="home">
-    <div class="hero-bg-shape"></div>
+  
+  <section class="hero reference-hero" id="home">
+    <div class="hero-leaf-glow"></div>
     <div class="hero-inner">
       <div class="hero-copy">
-        <p class="eyebrow">NATURAL &nbsp;•&nbsp; DELICIOUS &nbsp;•&nbsp; COASTAL SNACKS</p>
-        <h1>Delicious Snacks,<br><em>Made to Enjoy.</em></h1>
-        <p class="lead">Discover Coast Bitez — a colourful collection of sweet, tangy and crunchy coastal snacks. Find your favourite bite, choose your pack and order easily from Ruai, Nairobi.</p>
-        <div style="display:flex; gap:14px; flex-wrap:wrap">
-          <a class="btn btn-primary" href="#products">Shop Our Snacks</a>
-          <a class="btn btn-outline" href="#contact" onclick="openWhatsApp(); return false;">Order on WhatsApp</a>
-        </div>
-        <div class="badges">
-          <span>🍬 Sweet & Savoury</span>
-          <span>📍 Ruai, Nairobi</span>
+        <p class="hero-kicker">AUTHENTIC COASTAL SNACKS</p>
+        <h1>The taste of <em>coastal snacks</em>, made for every moment.</h1>
+        <p class="lead">Discover sweet, tangy and crunchy favourites from Coast Bitez — carefully selected coastal snacks, ready to enjoy in Ruai, Nairobi.</p>
+
+        <div class="hero-points">
+          <span>🌿 100% Natural</span>
+          <span>💚 Locally Sourced</span>
           <span>🇰🇪 Proudly Kenyan</span>
         </div>
-      </div>
-      <div class="hero-visual" aria-label="Coast Bitez snack collection">
-        <div class="hero-visual-card">
-          <div class="hero-visual-label">COAST BITEZ</div>
-          <img src="assets/coast-bitez-products.svg" alt="Coast Bitez snack collection">
-          <div class="hero-phone">📞 0114565069</div>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary hero-shop-btn" href="#products">🛒 Shop Products <span>›</span></a>
+          <a class="btn btn-outline hero-wa-btn" href="#" onclick="openWhatsApp(); return false;">💬 Order on WhatsApp <span>›</span></a>
         </div>
+
+        <div class="hero-phone-banner">
+          <strong>💬 0114565069</strong>
+          <span>Order Now!</span>
+        </div>
+      </div>
+
+      <div class="hero-visual reference-visual" aria-label="Coast Bitez snack collection">
+        <div class="snack-badge">Fresh<br>Natural<br>Tasty!</div>
+        <div class="hero-snack-art">
+          <img src="assets/coast-bitez-products.svg" alt="Coast Bitez coastal snack collection">
+        </div>
+        <div class="hero-tagline">Real Snacks.<br><b>Great Taste.</b></div>
       </div>
     </div>
   </section>
 
-  <section class="benefits" id="benefits">
-    <div class="wrap">
-      <div class="item"><div class="icon">🌿</div><p>Rich in Vitamins</p></div>
-      <div class="item"><div class="icon">🛡️</div><p>Boosts Immunity</p></div>
-      <div class="item"><div class="icon">❤️</div><p>Supports Digestion</p></div>
-      <div class="item"><div class="icon">🌱</div><p>100% Natural</p></div>
-    </div>
-  </section>
+
 
   
 <section class="section products-modern" id="products">
@@ -414,7 +557,7 @@ footer{margin-top:55px}
       <div>
         <p class="eyebrow">OUR PRODUCTS</p>
         <h2>Natural Snacks, <em>Great Taste</em></h2>
-        <p>Authentic coastal favourites, delicious treats and crunchy bites — all in one place.</p>
+        <p>Natural snacks, made for every moment.</p>
       </div>
       <a class="btn btn-outline-dark" href="#products">View All Products →</a>
     </div>
