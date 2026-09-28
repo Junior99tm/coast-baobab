@@ -406,7 +406,7 @@ footer p,footer a{font-size:.86rem;color:#cfead9;text-decoration:none}
     
 <div class="mpesa-prompt-box" style="margin-top:14px;padding:16px;border:2px solid var(--orange);border-radius:14px;background:#fff;">
   <h3 style="margin:0 0 8px;">📱 Pay with M-Pesa</h3>
-  <p style="margin:0 0 10px;">Enter your M-Pesa phone number. Your payment prompt will be sent to your phone when automatic M-Pesa checkout is connected.</p>
+  <p style="margin:0 0 10px;">Enter your M-Pesa phone number and tap <strong>Pay Now</strong>. A secure M-Pesa prompt will be sent to your phone.</p>
   <label for="mpesaPhone" style="display:block;font-weight:800;margin-bottom:6px;">M-Pesa phone number</label>
   <input id="mpesaPhone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="+254 7XX XXX XXX / 07XX XXX XXX" maxlength="12" style="width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;font:inherit;">
   <button type="button" class="btn btn-primary" style="margin-top:10px;width:100%;" onclick="startMpesaPrompt()">📲 Pay Now</button>
@@ -560,8 +560,7 @@ function closeCart(){
 function startMpesaPrompt(){
   const phoneInput = document.getElementById("mpesaPhone");
   const status = document.getElementById("mpesaPromptStatus");
-  const raw = phoneInput.value.trim().replace(/[\s()-]/g,"");
-  const kenyaPatterns = /^(?:\+?254|0)(?:7|1)\d{8}$/;
+  const raw = phoneInput.value.trim().replace(/[\\s()-]/g,"");
 
   if(!raw){
     status.textContent = "Enter your Kenyan M-Pesa phone number.";
@@ -569,9 +568,14 @@ function startMpesaPrompt(){
     return;
   }
 
-  if(!kenyaPatterns.test(raw)){
+  if(!/^(?:\\+?254|0)(?:7|1)\\d{8}$/.test(raw)){
     status.textContent = "Use a valid Kenyan number: 07XXXXXXXX, 01XXXXXXXX, +2547XXXXXXXX or +2541XXXXXXXX.";
     phoneInput.focus();
+    return;
+  }
+
+  if(cart.length === 0){
+    status.textContent = "Your cart is empty. Add snacks before paying.";
     return;
   }
 
@@ -579,14 +583,29 @@ function startMpesaPrompt(){
   if(normalized.startsWith("+254")) normalized = "0" + normalized.slice(4);
   else if(normalized.startsWith("254")) normalized = "0" + normalized.slice(3);
 
-  status.textContent = "🇰🇪 Kenya number detected: " + normalized + ". Your payment amount is ready.";
+  const amount = cartTotal();
+  status.textContent = "⏳ Sending M-Pesa prompt...";
 
-  if(cart.length === 0){
-    alert("Your cart is empty. Add snacks before paying.");
-    return;
-  }
-
-  alert("Kenyan M-Pesa number detected: " + normalized + "\n\nAmount: KSh " + cartTotal().toLocaleString() + "\n\nThe automatic M-Pesa prompt still requires the secure Daraja connection. Your M-Pesa PIN must only be entered in the official M-Pesa prompt.");
+  fetch("https://YOUR-VERCEL-APP.vercel.app/api/stkpush", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      phone: normalized,
+      amount: amount,
+      reference: "CB-" + Date.now().toString().slice(-8)
+    })
+  })
+  .then(async response => {
+    const data = await response.json().catch(()=>({}));
+    if(!response.ok) throw new Error(data.error || "Unable to start M-Pesa payment.");
+    return data;
+  })
+  .then(data => {
+    status.textContent = "✅ M-Pesa prompt sent. Check " + normalized + " and enter your PIN in the official M-Pesa prompt.";
+  })
+  .catch(error => {
+    status.textContent = "❌ " + error.message;
+  });
 }
 
 function copyPaymentNumber(){
