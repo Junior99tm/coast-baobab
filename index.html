@@ -108,24 +108,7 @@ footer p, footer a{font-size:.88rem; color:#cfead9; text-decoration:none}
 .fab{position:fixed; bottom:22px; right:22px; background:#25D366; color:#fff; width:58px; height:58px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 22px rgba(0,0,0,.3); z-index:60; font-size:1.6rem; text-decoration:none}
 
 
-/* Product Dashboard */
-.dashboard{background:#fff;padding:80px 0;border-top:1px solid #eadfcf}
-.dashboard-panel{max-width:900px;margin:0 auto;background:var(--cream);border-radius:20px;padding:28px;box-shadow:var(--shadow)}
-.dashboard-note{font-size:.85rem;color:#6b5c48;margin:8px 0 20px}
-.dashboard-form{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:24px}
-.dashboard-form input,.dashboard-form textarea{width:100%;padding:12px 14px;border:1px solid #d9ccb7;border-radius:10px;font:inherit;background:#fff}
-.dashboard-form textarea{grid-column:1/-1;min-height:90px;resize:vertical}
-.dashboard-form .full{grid-column:1/-1}
-.dashboard-actions{display:flex;gap:10px;flex-wrap:wrap}
-.dashboard-list{display:grid;gap:10px;margin-top:20px}
-.dashboard-item{background:#fff;border:1px solid #e5dac8;border-radius:12px;padding:14px;display:flex;justify-content:space-between;gap:15px;align-items:center}
-.dashboard-item strong{display:block;color:var(--brown)}
-.dashboard-item small{color:#6b5c48}
-.dashboard-item button{border:0;border-radius:8px;padding:8px 12px;font-weight:700;cursor:pointer}
-.edit-btn{background:var(--gold);color:var(--brown-dark)}
-.delete-btn{background:#f1d8d4;color:#7b2118}
-@media(max-width:640px){
-  .dashboard-form{grid-template-columns:1fr}
+
   .dashboard-form textarea,.dashboard-form .full{grid-column:auto}
   .dashboard-item{flex-direction:column;align-items:flex-start}
 }
@@ -156,7 +139,6 @@ footer p, footer a{font-size:.88rem; color:#cfead9; text-decoration:none}
     </a>
     <button class="menu-btn" aria-label="Toggle menu" onclick="document.querySelector('nav.links').classList.toggle('open')">☰</button>
     <nav class="links">
-      <a href="#dashboard">Dashboard</a>
       <a href="#home">Home</a>
       <a href="#products">Products</a>
       <a href="#benefits">Benefits</a>
@@ -263,31 +245,6 @@ footer p, footer a{font-size:.88rem; color:#cfead9; text-decoration:none}
   </section>
 
 
-  <section class="dashboard" id="dashboard">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Manage Products</p>
-        <h2>COAST BITEZ Dashboard</h2>
-        <p>Add, edit or remove baobab snacks and other snacks from your product list.</p>
-      </div>
-      <div class="dashboard-panel">
-        <p class="dashboard-note">Your changes are saved in this browser. This dashboard is designed for managing the product display without changing the main site code.</p>
-        <form id="productForm" class="dashboard-form">
-          <input id="productName" required placeholder="Product name">
-          <input id="productCategory" required placeholder="Category (e.g. Baobab Snacks)">
-          <input id="productPrice" placeholder="Price (e.g. KSh 250)">
-          <input id="productImage" placeholder="Image URL (optional)">
-          <textarea id="productDescription" class="full" placeholder="Short product description"></textarea>
-          <div class="dashboard-actions full">
-            <button class="btn btn-primary" type="submit" id="saveProductBtn">Add Product</button>
-            <button class="btn" type="button" id="cancelEditBtn" style="display:none;background:#ddd">Cancel Edit</button>
-          </div>
-        </form>
-        <div id="dashboardList" class="dashboard-list"></div>
-      </div>
-    </div>
-  </section>
-
   <section class="section" id="contact">
     <div class="wrap">
       <div class="cta">
@@ -327,86 +284,6 @@ footer p, footer a{font-size:.88rem; color:#cfead9; text-decoration:none}
 </footer>
 
 <script>
-
-const DEFAULT_PRODUCTS = [
-  {name:"Baobab Snack", category:"Baobab Snacks", price:"", image:"", description:"A tasty baobab snack from Coast Bitez."},
-  {name:"Baobab Powder", category:"Baobab", price:"", image:"", description:"Natural baobab goodness."}
-];
-let products = JSON.parse(localStorage.getItem("coastBitezProducts") || "null") || DEFAULT_PRODUCTS;
-let editingIndex = -1;
-
-function saveProducts(){
-  localStorage.setItem("coastBitezProducts", JSON.stringify(products));
-}
-
-function renderDashboard(){
-  const list = document.getElementById("dashboardList");
-  if(!list) return;
-  list.innerHTML = products.length ? products.map((p,i)=>`
-    <div class="dashboard-item">
-      <div>
-        <strong>${escapeHtml(p.name)}</strong>
-        <small>${escapeHtml(p.category)} ${p.price ? "• " + escapeHtml(p.price) : ""}</small>
-      </div>
-      <div class="dashboard-actions">
-        <button class="edit-btn" onclick="editProduct(${i})">Edit</button>
-        <button class="delete-btn" onclick="deleteProduct(${i})">Delete</button>
-      </div>
-    </div>`).join("") : "<p>No products yet. Add your first snack above.</p>";
-}
-
-function escapeHtml(value){
-  return String(value || "").replace(/[&<>"']/g, s => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[s]));
-}
-
-function editProduct(index){
-  const p=products[index];
-  editingIndex=index;
-  document.getElementById("productName").value=p.name;
-  document.getElementById("productCategory").value=p.category;
-  document.getElementById("productPrice").value=p.price;
-  document.getElementById("productImage").value=p.image;
-  document.getElementById("productDescription").value=p.description;
-  document.getElementById("saveProductBtn").textContent="Save Changes";
-  document.getElementById("cancelEditBtn").style.display="inline-flex";
-  document.getElementById("dashboard").scrollIntoView({behavior:"smooth"});
-}
-
-function deleteProduct(index){
-  if(confirm("Delete this product?")){
-    products.splice(index,1);
-    saveProducts();
-    renderDashboard();
-  }
-}
-
-document.getElementById("productForm")?.addEventListener("submit", function(e){
-  e.preventDefault();
-  const product={
-    name:document.getElementById("productName").value.trim(),
-    category:document.getElementById("productCategory").value.trim(),
-    price:document.getElementById("productPrice").value.trim(),
-    image:document.getElementById("productImage").value.trim(),
-    description:document.getElementById("productDescription").value.trim()
-  };
-  if(editingIndex>=0) products[editingIndex]=product;
-  else products.push(product);
-  saveProducts();
-  editingIndex=-1;
-  this.reset();
-  document.getElementById("saveProductBtn").textContent="Add Product";
-  document.getElementById("cancelEditBtn").style.display="none";
-  renderDashboard();
-});
-
-document.getElementById("cancelEditBtn")?.addEventListener("click",function(){
-  editingIndex=-1;
-  document.getElementById("productForm").reset();
-  document.getElementById("saveProductBtn").textContent="Add Product";
-  this.style.display="none";
-});
-
-renderDashboard();
 
 const WHATSAPP_NUMBER = "254114565069";
 function openWhatsApp(product){
