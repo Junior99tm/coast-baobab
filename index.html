@@ -162,7 +162,8 @@ nav.links a:first-child{border-bottom:3px solid var(--orange);color:var(--green)
 .cart-total{display:flex;justify-content:space-between;border-top:1px solid #e5dac7;margin-top:16px;padding-top:16px;font-size:1.15rem;font-weight:800;color:var(--green)}
 .payment-box{margin-top:18px;background:#f4f8f2;border:2px solid #d7e8d9;border-radius:16px;padding:16px}
 .payment-box h3{color:var(--green);margin-bottom:8px}
-.payment-number{font-size:1.25rem;font-weight:900;color:var(--orange)}
+.payment-number{font-size:1.45rem;font-weight:900;color:var(--orange);letter-spacing:.03em;display:inline-block;background:#fff;border:2px dashed var(--orange);padding:8px 12px;border-radius:10px;cursor:pointer}
+.payment-number:focus{outline:3px solid rgba(242,138,24,.28);outline-offset:2px}
 .payment-box .btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:0;font:inherit;cursor:pointer}
 .payment-box a.btn:visited{color:#fff}
 
@@ -404,10 +405,10 @@ footer p,footer a{font-size:.86rem;color:#cfead9;text-decoration:none}
 
     <div class="payment-box">
       <h3>💳 Pay for your order</h3>
-      <p>Choose the easiest payment method. Your Coast Bitez payment number is:</p>
-      <p class="payment-number">0114565069</p>
+      <p><strong>Pay your cart total to Coast Bitez.</strong> Your payment number is below — tap it to copy.</p>
+      <button type="button" class="payment-number" onclick="copyPaymentNumber()" aria-label="Copy Coast Bitez M-Pesa payment number 0114565069">0114565069</button>
       <div class="payment-actions">
-        <button class="btn btn-primary" onclick="copyPaymentNumber()">📋 Copy Payment Number</button>
+        <button class="btn btn-primary" onclick="copyPaymentNumber()">📋 Copy Number</button>
         <a class="btn btn-primary" href="tel:*334%23">📱 Open M-Pesa Menu</a>
       </div>
       <div style="margin-top:16px;padding-top:14px;border-top:1px solid #d7e8d9">
@@ -433,7 +434,7 @@ footer p,footer a{font-size:.86rem;color:#cfead9;text-decoration:none}
       <div class="payment-actions">
         <button class="btn btn-whatsapp" onclick="checkoutOnWhatsApp()">💬 Send Order & Payment Confirmation</button>
       </div>
-      <p class="checkout-note">After paying, use WhatsApp to send your order details and M-Pesa confirmation so Coast Bitez can confirm the payment.</p>
+      <p class="checkout-note"><strong>Amount to pay: Sh <span id="paymentAmount">0</span></strong><br>After paying, use WhatsApp to send your order details and M-Pesa confirmation so Coast Bitez can confirm the payment.</p>
     </div>
   </div>
 </div>
@@ -506,6 +507,8 @@ function cartTotal(){
 
 function updateCart(){
   const count=cart.reduce((sum,item)=>sum+item.qty,0);
+  const paymentAmount=document.getElementById("paymentAmount");
+  if(paymentAmount) paymentAmount.textContent=cartTotal();
   document.getElementById("cartCount").textContent=count;
   const items=document.getElementById("cartItems");
   const totalBox=document.getElementById("cartTotal");
