@@ -408,7 +408,7 @@ footer p,footer a{font-size:.86rem;color:#cfead9;text-decoration:none}
   <h3 style="margin:0 0 8px;">📱 Pay with M-Pesa</h3>
   <p style="margin:0 0 10px;">Enter your M-Pesa phone number. Your payment prompt will be sent to your phone when automatic M-Pesa checkout is connected.</p>
   <label for="mpesaPhone" style="display:block;font-weight:800;margin-bottom:6px;">M-Pesa phone number</label>
-  <input id="mpesaPhone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="07XXXXXXXX or 01XXXXXXXX" maxlength="12" style="width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;font:inherit;">
+  <input id="mpesaPhone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="+254 7XX XXX XXX / 07XX XXX XXX" maxlength="12" style="width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;font:inherit;">
   <button type="button" class="btn btn-primary" style="margin-top:10px;width:100%;" onclick="startMpesaPrompt()">📲 Pay Now</button>
   <p id="mpesaPromptStatus" style="margin:8px 0 0;font-size:.9rem;"></p>
   <small style="display:block;margin-top:8px;">🔐 Never enter your M-Pesa PIN on this website. Enter your PIN only in the official M-Pesa prompt.</small>
@@ -558,24 +558,35 @@ function closeCart(){
 
 
 function startMpesaPrompt(){
-  const input=document.getElementById("mpesaPhone");
-  const status=document.getElementById("mpesaPromptStatus");
-  const raw=input.value.trim().replace(/\\s+/g,"");
-  const phone=/^(07|01)\\d{8}$/.test(raw) ? "254"+raw.slice(1) : (/^254(7|1)\\d{8}$/.test(raw) ? raw : "");
-  if(!phone){
-    status.textContent="Please enter a valid Kenyan M-Pesa number, e.g. 0712345678.";
-    status.style.color="#b42318";
-    input.focus();
+  const phoneInput = document.getElementById("mpesaPhone");
+  const status = document.getElementById("mpesaPromptStatus");
+  const raw = phoneInput.value.trim().replace(/[\\s()-]/g,"");
+  const kenyaPatterns = /^(?:\\+?254|0)(?:7|1)\\d{8}$/;
+
+  if(!raw){
+    status.textContent = "Enter your Kenyan M-Pesa phone number.";
+    phoneInput.focus();
     return;
   }
-  if(cart.length===0){
-    status.textContent="Add at least one snack to your cart first.";
-    status.style.color="#b42318";
+
+  if(!kenyaPatterns.test(raw)){
+    status.textContent = "Use a valid Kenyan number: 07XXXXXXXX, 01XXXXXXXX, +2547XXXXXXXX or +2541XXXXXXXX.";
+    phoneInput.focus();
     return;
   }
-  status.textContent="Your M-Pesa number is ready. Automatic payment prompts require the secure Daraja payment connection.";
-  status.style.color="#07552f";
-  alert("M-Pesa number saved: "+raw+"\\nAmount: KSh "+cartTotal()+"\\n\\nThe actual PIN prompt must come from M-Pesa, not this website.");
+
+  let normalized = raw;
+  if(normalized.startsWith("+254")) normalized = "0" + normalized.slice(4);
+  else if(normalized.startsWith("254")) normalized = "0" + normalized.slice(3);
+
+  status.textContent = "🇰🇪 Kenya number detected: " + normalized + ". Your payment amount is ready.";
+
+  if(cart.length === 0){
+    alert("Your cart is empty. Add snacks before paying.");
+    return;
+  }
+
+  alert("Kenyan M-Pesa number detected: " + normalized + "\\n\\nAmount: KSh " + cartTotal().toLocaleString() + "\\n\\nThe automatic M-Pesa prompt still requires the secure Daraja connection. Your M-Pesa PIN must only be entered in the official M-Pesa prompt.");
 }
 
 function copyPaymentNumber(){
