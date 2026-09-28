@@ -163,6 +163,9 @@ nav.links a:first-child{border-bottom:3px solid var(--orange);color:var(--green)
 .payment-box{margin-top:18px;background:#f4f8f2;border:2px solid #d7e8d9;border-radius:16px;padding:16px}
 .payment-box h3{color:var(--green);margin-bottom:8px}
 .payment-number{font-size:1.25rem;font-weight:900;color:var(--orange)}
+.payment-box .btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:0;font:inherit;cursor:pointer}
+.payment-box a.btn:visited{color:#fff}
+
 .payment-steps{margin:10px 0 0 20px;color:#4d493f;font-size:.9rem}
 .payment-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
 .payment-actions .btn{flex:1;min-width:190px}
@@ -400,22 +403,37 @@ footer p,footer a{font-size:.86rem;color:#cfead9;text-decoration:none}
     <div id="cartTotal" class="cart-total" hidden><span>Total</span><span>Sh 0</span></div>
 
     <div class="payment-box">
-      <h3>💳 Payment by M-Pesa</h3>
-      <p>Send your payment directly to the Coast Bitez phone number:</p>
+      <h3>💳 Pay for your order</h3>
+      <p>Choose the easiest payment method. Your Coast Bitez payment number is:</p>
       <p class="payment-number">0114565069</p>
-      <ol class="payment-steps">
-        <li>Open <strong>M-Pesa</strong> on your phone.</li>
-        <li>Select <strong>Send Money</strong>.</li>
-        <li>Enter <strong>0114565069</strong>.</li>
-        <li>Enter the <strong>cart total</strong> shown above.</li>
-        <li>Confirm the recipient details and enter your M-Pesa PIN.</li>
-        <li>After payment, send the M-Pesa confirmation message/order details to Coast Bitez on WhatsApp.</li>
-      </ol>
-      <p class="checkout-note">Never share your M-Pesa PIN with anyone. Coast Bitez will never ask for your PIN.</p>
       <div class="payment-actions">
-        <button class="btn btn-primary" onclick="copyPaymentNumber()">📋 Copy Number</button>
-        <button class="btn btn-whatsapp" onclick="checkoutOnWhatsApp()">💬 Send Order on WhatsApp</button>
+        <button class="btn btn-primary" onclick="copyPaymentNumber()">📋 Copy Payment Number</button>
+        <a class="btn btn-primary" href="tel:*334%23">📱 Open M-Pesa Menu</a>
       </div>
+      <div style="margin-top:16px;padding-top:14px;border-top:1px solid #d7e8d9">
+        <strong style="color:var(--green)">Option 1 — M-Pesa App</strong>
+        <ol class="payment-steps">
+          <li>Open your M-Pesa app and choose <strong>Send</strong>.</li>
+          <li>Select Coast Bitez / enter <strong>0114565069</strong>.</li>
+          <li>Enter the <strong>cart total</strong>.</li>
+          <li>Confirm the recipient and amount, then enter your M-Pesa PIN.</li>
+        </ol>
+      </div>
+      <div style="margin-top:14px">
+        <strong style="color:var(--green)">Option 2 — M-Pesa menu / USSD</strong>
+        <ol class="payment-steps">
+          <li>Tap <strong>Open M-Pesa Menu</strong> above, or dial <strong>*334#</strong>.</li>
+          <li>Choose <strong>Send Money</strong>.</li>
+          <li>Enter <strong>0114565069</strong>.</li>
+          <li>Enter the <strong>cart total</strong>.</li>
+          <li>Confirm the recipient and enter your M-Pesa PIN.</li>
+        </ol>
+      </div>
+      <p class="checkout-note"><strong>Security:</strong> Never share your M-Pesa PIN with Coast Bitez or anyone else.</p>
+      <div class="payment-actions">
+        <button class="btn btn-whatsapp" onclick="checkoutOnWhatsApp()">💬 Send Order & Payment Confirmation</button>
+      </div>
+      <p class="checkout-note">After paying, use WhatsApp to send your order details and M-Pesa confirmation so Coast Bitez can confirm the payment.</p>
     </div>
   </div>
 </div>
