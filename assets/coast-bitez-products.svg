@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffaf0"/><stop offset="1" stop-color="#f5e8cf"/></linearGradient>
+ <linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#214d31"/><stop offset="1" stop-color="#102719"/></linearGradient>
+ <filter id="shadow"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-opacity=".16"/></filter>
+</defs>
+<rect width="1200" height="720" rx="32" fill="url(#bg)"/>
+<text x="60" y="82" font-family="Arial,sans-serif" font-size="58" font-weight="900" fill="#17120e">COAST <tspan fill="#f28a12">BITEZ</tspan></text>
+<text x="63" y="122" font-family="Arial,sans-serif" font-size="22" font-weight="700" fill="#214d31">SNACKS • BAOBAB • MORE</text>
+<text x="60" y="168" font-family="Arial,sans-serif" font-size="26" font-weight="800" fill="#3b2413">Real Snacks. Great Taste.</text>
+<g filter="url(#shadow)">
+ <rect x="50" y="210" width="205" height="360" rx="26" fill="#fff" stroke="#f0a62a" stroke-width="4"/>
+ <rect x="70" y="235" width="165" height="245" rx="18" fill="#f4a51c"/>
+ <g fill="#ffd36a"><circle cx="105" cy="280" r="18"/><circle cx="150" cy="320" r="22"/><circle cx="200" cy="270" r="20"/><circle cx="120" cy="390" r="22"/><circle cx="185" cy="420" r="19"/></g>
+ <text x="152" y="520" text-anchor="middle" font-family="Arial" font-size="28" font-weight="900" fill="#17120e">TAMBI</text><text x="152" y="552" text-anchor="middle" font-family="Arial" font-size="24" font-weight="800" fill="#f28a12">Sh 40</text>
+</g>
+<g filter="url(#shadow)">
+ <rect x="285" y="210" width="205" height="360" rx="26" fill="#fff" stroke="#f0a62a" stroke-width="4"/>
+ <rect x="305" y="235" width="165" height="245" rx="18" fill="#7b3f20"/>
+ <g fill="#b96932"><circle cx="340" cy="285" r="24"/><circle cx="400" cy="275" r="22"/><circle cx="435" cy="335" r="23"/><circle cx="365" cy="355" r="24"/><circle cx="420" cy="405" r="25"/><circle cx="340" cy="425" r="22"/></g>
+ <text x="387" y="520" text-anchor="middle" font-family="Arial" font-size="28" font-weight="900" fill="#17120e">TENDE</text><text x="387" y="552" text-anchor="middle" font-family="Arial" font-size="24" font-weight="800" fill="#f28a12">Sh 40</text>
+</g>
+<g filter="url(#shadow)">
+ <rect x="520" y="210" width="205" height="360" rx="26" fill="#fff" stroke="#f0a62a" stroke-width="4"/>
+ <rect x="540" y="235" width="165" height="245" rx="18" fill="#e73855"/>
+ <g fill="#ff6074"><circle cx="580" cy="280" r="20"/><circle cx="635" cy="315" r="22"/><circle cx="675" cy="275" r="20"/><circle cx="575" cy="380" r="22"/><circle cx="660" cy="410" r="24"/><circle cx="620" cy="430" r="19"/></g>
+ <text x="622" y="520" text-anchor="middle" font-family="Arial" font-size="28" font-weight="900" fill="#17120e">MABUYU</text><text x="622" y="552" text-anchor="middle" font-family="Arial" font-size="24" font-weight="800" fill="#f28a12">Sh 60</text>
+</g>
+<g filter="url(#shadow)">
+ <rect x="755" y="210" width="205" height="360" rx="26" fill="#fff" stroke="#f0a62a" stroke-width="4"/>
+ <rect x="775" y="235" width="165" height="245" rx="18" fill="#b67a3c"/>
+ <g fill="#d9a66b"><rect x="800" y="270" width="115" height="32" rx="8"/><rect x="800" y="320" width="115" height="32" rx="8"/><rect x="800" y="370" width="115" height="32" rx="8"/><rect x="800" y="420" width="115" height="32" rx="8"/></g>
+ <text x="857" y="520" text-anchor="middle" font-family="Arial" font-size="27" font-weight="900" fill="#17120e">LABANIA</text><text x="857" y="552" text-anchor="middle" font-family="Arial" font-size="24" font-weight="800" fill="#f28a12">Sh 100</text>
+</g>
+<g filter="url(#shadow)">
+ <rect x="990" y="210" width="160" height="360" rx="26" fill="#fff" stroke="#f0a62a" stroke-width="4"/>
+ <rect x="1010" y="235" width="120" height="245" rx="18" fill="#d5a15d"/>
+ <g fill="#b97834"><circle cx="1035" cy="275" r="15"/><circle cx="1075" cy="290" r="15"/><circle cx="1110" cy="270" r="14"/><circle cx="1050" cy="340" r="16"/><circle cx="1090" cy="355" r="15"/><circle cx="1115" cy="410" r="16"/></g>
+ <text x="1070" y="520" text-anchor="middle" font-family="Arial" font-size="20" font-weight="900" fill="#17120e">PEANUTS</text><text x="1070" y="552" text-anchor="middle" font-family="Arial" font-size="21" font-weight="800" fill="#f28a12">Sh 100</text>
+</g>
+<rect x="60" y="620" width="1080" height="58" rx="29" fill="url(#green)"/>
+<text x="600" y="658" text-anchor="middle" font-family="Arial,sans-serif" font-size="25" font-weight="800" fill="#fff">Fresh • Natural • Tasty  |  WhatsApp 0114565069  |  Order Now</text>
+</svg>
