@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COAST BITEZ Admin Dashboard</title>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#f7f1e8;color:#3e2b1d}
+.wrap{max-width:900px;margin:auto;padding:30px 18px}
+.card{background:#fff;border-radius:16px;padding:24px;margin:20px 0;box-shadow:0 4px 20px #0001}
+input,textarea{width:100%;box-sizing:border-box;padding:12px;margin:7px 0 14px;border:1px solid #ddd;border-radius:9px;font:inherit}
+button{border:0;border-radius:9px;padding:11px 16px;font-weight:bold;cursor:pointer}
+.primary{background:#d9822b;color:white}.edit{background:#e8c46a}.delete{background:#efd5d1}
+.item{display:flex;justify-content:space-between;gap:15px;align-items:center;border:1px solid #eee;padding:14px;border-radius:10px;margin:10px 0}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.hidden{display:none!important}
+small{color:#766}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>COAST BITEZ</h1>
+<p>Admin Product Dashboard</p>
+
+<div id="login" class="card">
+<h2>Admin Login</h2>
+<p>Enter the admin password to manage products.</p>
+<input id="password" type="password" placeholder="Admin password">
+<button class="primary" onclick="login()">Login</button>
+<p id="loginError" style="color:#a22"></p>
+</div>
+
+<div id="panel" class="hidden">
+<div class="card">
+<h2>Add / Edit Product</h2>
+<form id="form">
+<input id="name" required placeholder="Product name">
+<input id="category" required placeholder="Category e.g. Baobab Snacks">
+<input id="price" placeholder="Price e.g. KSh 250">
+<input id="image" placeholder="Image URL (optional)">
+<textarea id="description" placeholder="Product description"></textarea>
+<button class="primary" type="submit" id="save">Add Product</button>
+<button type="button" onclick="cancelEdit()">Cancel</button>
+</form>
+</div>
+<div class="card">
+<h2>Products</h2>
+<div id="list"></div>
+</div>
+<button onclick="logout()">Logout</button>
+</div>
+</div>
+
+<script>
+const ADMIN_PASSWORD="COASTBITEZ"; // Change this password before launch.
+let products=JSON.parse(localStorage.getItem("coastBitezProducts")||"null")||[
+{name:"Baobab Snack",category:"Baobab Snacks",price:"",image:"",description:"A tasty baobab snack from Coast Bitez."},
+{name:"Baobab Powder",category:"Baobab",price:"",image:"",description:"Natural baobab goodness."}
+];
+let editIndex=-1;
+
+function login(){
+ if(document.getElementById("password").value===ADMIN_PASSWORD){
+  sessionStorage.setItem("coastBitezAdmin","yes"); showPanel();
+ }else document.getElementById("loginError").textContent="Incorrect password.";
+}
+function showPanel(){
+ document.getElementById("login").classList.add("hidden");
+ document.getElementById("panel").classList.remove("hidden");
+ render();
+}
+function logout(){
+ sessionStorage.removeItem("coastBitezAdmin");
+ location.reload();
+}
+function saveData(){localStorage.setItem("coastBitezProducts",JSON.stringify(products));}
+function esc(v){return String(v||"").replace(/[&<>"']/g,s=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[s]));}
+function render(){
+ document.getElementById("list").innerHTML=products.length?products.map((p,i)=>
+ '<div class="item"><div><b>'+esc(p.name)+'</b><br><small>'+esc(p.category)+(p.price?' • '+esc(p.price):'')+'</small></div><div class="actions"><button class="edit" onclick="edit('+i+')">Edit</button><button class="delete" onclick="removeProduct('+i+')">Delete</button></div></div>'
+ ).join(""):"<p>No products yet.</p>";
+}
+function edit(i){
+ let p=products[i]; editIndex=i;
+ name.value=p.name;category.value=p.category;price.value=p.price;image.value=p.image;description.value=p.description;
+ save.textContent="Save Changes";
+}
+function cancelEdit(){editIndex=-1;form.reset();save.textContent="Add Product";}
+function removeProduct(i){if(confirm("Delete this product?")){products.splice(i,1);saveData();render();}}
+form.addEventListener("submit",e=>{
+ e.preventDefault();
+ let p={name:name.value.trim(),category:category.value.trim(),price:price.value.trim(),image:image.value.trim(),description:description.value.trim()};
+ if(editIndex>=0)products[editIndex]=p;else products.push(p);
+ saveData();cancelEdit();render();
+});
+if(sessionStorage.getItem("coastBitezAdmin")==="yes")showPanel();
+</script>
+</body>
+</html>
