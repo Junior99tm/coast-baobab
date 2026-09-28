@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://junior99tm.github.io/coast-baobab/sitemap.xml
+Sitemap: https://junior99tm.github.io/coast-bitez/sitemap.xml
