@@ -403,7 +403,17 @@ footer p,footer a{font-size:.86rem;color:#cfead9;text-decoration:none}
     <div id="cartItems" class="cart-items"></div>
     <div id="cartTotal" class="cart-total" hidden><span>Total</span><span>Sh 0</span></div>
 
-    <div class="payment-box">
+    
+<div class="mpesa-prompt-box" style="margin-top:14px;padding:16px;border:2px solid var(--orange);border-radius:14px;background:#fff;">
+  <h3 style="margin:0 0 8px;">📱 Pay with M-Pesa</h3>
+  <p style="margin:0 0 10px;">Enter your M-Pesa phone number. Your payment prompt will be sent to your phone when automatic M-Pesa checkout is connected.</p>
+  <label for="mpesaPhone" style="display:block;font-weight:800;margin-bottom:6px;">M-Pesa phone number</label>
+  <input id="mpesaPhone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="07XXXXXXXX or 01XXXXXXXX" maxlength="12" style="width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;font:inherit;">
+  <button type="button" class="btn btn-primary" style="margin-top:10px;width:100%;" onclick="startMpesaPrompt()">📲 Pay Now</button>
+  <p id="mpesaPromptStatus" style="margin:8px 0 0;font-size:.9rem;"></p>
+  <small style="display:block;margin-top:8px;">🔐 Never enter your M-Pesa PIN on this website. Enter your PIN only in the official M-Pesa prompt.</small>
+</div>
+<div class="payment-box">
       <h3>💳 Pay for your order</h3>
       <p><strong>Pay your cart total to Coast Bitez.</strong> Your payment number is below — tap it to copy.</p>
       <button type="button" class="payment-number" onclick="copyPaymentNumber()" aria-label="Copy Coast Bitez M-Pesa payment number 0114565069">0114565069</button>
@@ -544,6 +554,28 @@ function openCart(){
 }
 function closeCart(){
   document.getElementById("cartModal").classList.remove("open");
+}
+
+
+function startMpesaPrompt(){
+  const input=document.getElementById("mpesaPhone");
+  const status=document.getElementById("mpesaPromptStatus");
+  const raw=input.value.trim().replace(/\\s+/g,"");
+  const phone=/^(07|01)\\d{8}$/.test(raw) ? "254"+raw.slice(1) : (/^254(7|1)\\d{8}$/.test(raw) ? raw : "");
+  if(!phone){
+    status.textContent="Please enter a valid Kenyan M-Pesa number, e.g. 0712345678.";
+    status.style.color="#b42318";
+    input.focus();
+    return;
+  }
+  if(cart.length===0){
+    status.textContent="Add at least one snack to your cart first.";
+    status.style.color="#b42318";
+    return;
+  }
+  status.textContent="Your M-Pesa number is ready. Automatic payment prompts require the secure Daraja payment connection.";
+  status.style.color="#07552f";
+  alert("M-Pesa number saved: "+raw+"\\nAmount: KSh "+cartTotal()+"\\n\\nThe actual PIN prompt must come from M-Pesa, not this website.");
 }
 
 function copyPaymentNumber(){
