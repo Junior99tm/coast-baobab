@@ -560,8 +560,8 @@ function closeCart(){
 function startMpesaPrompt(){
   const phoneInput = document.getElementById("mpesaPhone");
   const status = document.getElementById("mpesaPromptStatus");
-  const raw = phoneInput.value.trim().replace(/[\\s()-]/g,"");
-  const kenyaPatterns = /^(?:\\+?254|0)(?:7|1)\\d{8}$/;
+  const raw = phoneInput.value.trim().replace(/[\s()-]/g,"");
+  const kenyaPatterns = /^(?:\+?254|0)(?:7|1)\d{8}$/;
 
   if(!raw){
     status.textContent = "Enter your Kenyan M-Pesa phone number.";
@@ -586,7 +586,7 @@ function startMpesaPrompt(){
     return;
   }
 
-  alert("Kenyan M-Pesa number detected: " + normalized + "\\n\\nAmount: KSh " + cartTotal().toLocaleString() + "\\n\\nThe automatic M-Pesa prompt still requires the secure Daraja connection. Your M-Pesa PIN must only be entered in the official M-Pesa prompt.");
+  alert("Kenyan M-Pesa number detected: " + normalized + "\n\nAmount: KSh " + cartTotal().toLocaleString() + "\n\nThe automatic M-Pesa prompt still requires the secure Daraja connection. Your M-Pesa PIN must only be entered in the official M-Pesa prompt.");
 }
 
 function copyPaymentNumber(){
