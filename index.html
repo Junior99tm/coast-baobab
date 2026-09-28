@@ -143,6 +143,39 @@ nav.links a:first-child{border-bottom:3px solid var(--orange);color:var(--green)
 .order-btn{border:0;background:var(--green);color:#fff;padding:8px 13px;border-radius:22px;font-weight:800;cursor:pointer}
 .no-products{text-align:center;color:var(--muted);padding:30px}
 
+
+/* cart + payment */
+.cart-trigger{position:relative;border:0;background:var(--orange);color:#fff;padding:10px 16px;border-radius:999px;font-weight:800;cursor:pointer;box-shadow:0 5px 14px rgba(242,138,24,.25)}
+.cart-count{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 5px;background:#fff;color:var(--green);border-radius:50%;font-size:.72rem;margin-left:5px}
+.cart-modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
+.cart-modal.open{display:flex}
+.cart-panel{width:min(560px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:22px;box-shadow:0 24px 70px rgba(0,0,0,.3);padding:24px}
+.cart-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px}
+.cart-head h2{color:var(--green)}
+.cart-close{border:0;background:#f2eee6;width:38px;height:38px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.cart-items{display:flex;flex-direction:column;gap:10px}
+.cart-item{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:12px;background:var(--cream);border-radius:12px}
+.cart-item strong{display:block;color:#2b2119}
+.cart-item small{color:var(--muted)}
+.qty-controls{display:flex;align-items:center;gap:8px}
+.qty-controls button{border:0;background:var(--green);color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-weight:800}
+.cart-total{display:flex;justify-content:space-between;border-top:1px solid #e5dac7;margin-top:16px;padding-top:16px;font-size:1.15rem;font-weight:800;color:var(--green)}
+.payment-box{margin-top:18px;background:#f4f8f2;border:2px solid #d7e8d9;border-radius:16px;padding:16px}
+.payment-box h3{color:var(--green);margin-bottom:8px}
+.payment-number{font-size:1.25rem;font-weight:900;color:var(--orange)}
+.payment-steps{margin:10px 0 0 20px;color:#4d493f;font-size:.9rem}
+.payment-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.payment-actions .btn{flex:1;min-width:190px}
+.cart-empty{text-align:center;color:var(--muted);padding:25px}
+.checkout-note{font-size:.78rem;color:var(--muted);margin-top:9px}
+@media(max-width:640px){
+ .cart-panel{padding:18px;border-radius:18px}
+ .cart-item{grid-template-columns:1fr auto}
+ .cart-item .qty-controls{grid-column:1/-1}
+ .payment-actions{flex-direction:column}
+ .payment-actions .btn{width:100%}
+}
+
 /* about + CTA + footer */
 .about{background:var(--cream2);padding:70px 0}
 .about .grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center}
@@ -249,6 +282,7 @@ footer p,footer a{font-size:.86rem;color:#cfead9;text-decoration:none}
       </span>
       <span class="name">COAST BITEZ<span>R U A I</span></span>
     </a>
+    <button class="cart-trigger" onclick="openCart()" aria-label="Open shopping cart">🛒 Cart <span id="cartCount" class="cart-count">0</span></button>
     <button class="menu-btn" aria-label="Toggle menu" onclick="document.querySelector('nav.links').classList.toggle('open')">☰</button>
     <nav class="links">
       <a href="#home">Home</a>
@@ -356,6 +390,36 @@ footer p,footer a{font-size:.86rem;color:#cfead9;text-decoration:none}
   </section>
 </main>
 
+<div id="cartModal" class="cart-modal" role="dialog" aria-modal="true" aria-labelledby="cartTitle" onclick="if(event.target===this) closeCart()">
+  <div class="cart-panel">
+    <div class="cart-head">
+      <h2 id="cartTitle">🛒 Your Cart</h2>
+      <button class="cart-close" onclick="closeCart()" aria-label="Close cart">×</button>
+    </div>
+    <div id="cartItems" class="cart-items"></div>
+    <div id="cartTotal" class="cart-total" hidden><span>Total</span><span>Sh 0</span></div>
+
+    <div class="payment-box">
+      <h3>💳 Payment by M-Pesa</h3>
+      <p>Send your payment directly to the Coast Bitez phone number:</p>
+      <p class="payment-number">0114565069</p>
+      <ol class="payment-steps">
+        <li>Open <strong>M-Pesa</strong> on your phone.</li>
+        <li>Select <strong>Send Money</strong>.</li>
+        <li>Enter <strong>0114565069</strong>.</li>
+        <li>Enter the <strong>cart total</strong> shown above.</li>
+        <li>Confirm the recipient details and enter your M-Pesa PIN.</li>
+        <li>After payment, send the M-Pesa confirmation message/order details to Coast Bitez on WhatsApp.</li>
+      </ol>
+      <p class="checkout-note">Never share your M-Pesa PIN with anyone. Coast Bitez will never ask for your PIN.</p>
+      <div class="payment-actions">
+        <button class="btn btn-primary" onclick="copyPaymentNumber()">📋 Copy Number</button>
+        <button class="btn btn-whatsapp" onclick="checkoutOnWhatsApp()">💬 Send Order on WhatsApp</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <a class="fab" href="#" onclick="openWhatsApp(); return false;" aria-label="Order on WhatsApp">💬</a>
 
 <footer>
@@ -382,13 +446,15 @@ footer p,footer a{font-size:.86rem;color:#cfead9;text-decoration:none}
 <script>
 
 const WHATSAPP_NUMBER = "254114565069";
+const PAYMENT_NUMBER = "0114565069";
+let cart = [];
+
 function openWhatsApp(product){
   const msg = product
     ? `Hello Coast Bitez, I would like to order: ${product}. Please share the price and availability.`
     : `Hello Coast Bitez, I would like to know more about your snacks and prices.`;
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
 }
-function order(product){ openWhatsApp(product); }
 
 const COAST_BITEZ_PRODUCTS=[
  {name:"Tambi",price:40,description:"A crunchy coastal favourite, prepared for easy snacking.",art:1},
@@ -397,6 +463,88 @@ const COAST_BITEZ_PRODUCTS=[
  {name:"Labania",price:100,description:"A traditional sweet snack, packed ready for sharing.",art:4},
  {name:"Roasted Peanuts",price:100,description:"Crunchy roasted peanuts for a simple, satisfying bite.",art:5}
 ];
+
+function addToCart(productName){
+  const product=COAST_BITEZ_PRODUCTS.find(p=>p.name===productName);
+  if(!product) return;
+  const existing=cart.find(item=>item.name===product.name);
+  if(existing) existing.qty++;
+  else cart.push({...product,qty:1});
+  updateCart();
+  openCart();
+}
+
+function changeQty(productName,delta){
+  const item=cart.find(p=>p.name===productName);
+  if(!item) return;
+  item.qty+=delta;
+  if(item.qty<=0) cart=cart.filter(p=>p.name!==productName);
+  updateCart();
+}
+
+function cartTotal(){
+  return cart.reduce((sum,item)=>sum+(item.price*item.qty),0);
+}
+
+function updateCart(){
+  const count=cart.reduce((sum,item)=>sum+item.qty,0);
+  document.getElementById("cartCount").textContent=count;
+  const items=document.getElementById("cartItems");
+  const totalBox=document.getElementById("cartTotal");
+  if(!cart.length){
+    items.innerHTML='<div class="cart-empty">Your cart is empty. Add a snack to get started.</div>';
+    totalBox.hidden=true;
+    return;
+  }
+  items.innerHTML=cart.map(item=>`
+    <div class="cart-item">
+      <div><strong>${item.name}</strong><small>Sh ${item.price} each</small></div>
+      <strong>Sh ${item.price*item.qty}</strong>
+      <div class="qty-controls">
+        <button onclick="changeQty('${item.name}',-1)" aria-label="Decrease quantity">−</button>
+        <strong>${item.qty}</strong>
+        <button onclick="changeQty('${item.name}',1)" aria-label="Increase quantity">+</button>
+      </div>
+    </div>
+  `).join("");
+  totalBox.hidden=false;
+  totalBox.innerHTML=`<span>Total</span><span>Sh ${cartTotal()}</span>`;
+}
+
+function openCart(){
+  document.getElementById("cartModal").classList.add("open");
+  updateCart();
+}
+function closeCart(){
+  document.getElementById("cartModal").classList.remove("open");
+}
+
+function copyPaymentNumber(){
+  navigator.clipboard?.writeText(PAYMENT_NUMBER).then(
+    ()=>alert("Payment number copied: 0114565069"),
+    ()=>alert("Payment number: 0114565069")
+  );
+}
+
+function checkoutOnWhatsApp(){
+  if(!cart.length){
+    alert("Your cart is empty. Add products first.");
+    return;
+  }
+  const lines=cart.map(item=>`${item.name} x${item.qty} = Sh ${item.price*item.qty}`);
+  const msg=`Hello Coast Bitez, I want to order:
+${lines.join("\n")}
+Total: Sh ${cartTotal()}
+
+I will send payment to 0114565069 via M-Pesa. I will share my M-Pesa confirmation after payment.`;
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
+}
+
+function order(product){
+  const name=String(product).split(" — ")[0];
+  addToCart(name);
+}
+
 function renderProducts(){
  const grid=document.getElementById("productGrid"), empty=document.getElementById("noProducts");
  const query=(document.getElementById("productSearch").value||"").trim().toLowerCase();
@@ -406,7 +554,7 @@ function renderProducts(){
   const filterMatch=active==="all"||(active==="under50"&&p.price<50)||(active==="under100"&&p.price<100)||(active==="100"&&p.price===100);
   return textMatch&&filterMatch;
  });
- grid.innerHTML=filtered.map(p=>`<article class="dynamic-card"><div class="dynamic-art" style="background-position:${(p.art-1)*25}% 50%"></div><div class="dynamic-body"><span class="dynamic-tag">Coast Bitez Snack</span><h3>${p.name}</h3><p>${p.description}</p><div class="dynamic-bottom"><strong class="dynamic-price">Sh ${p.price}</strong><button class="order-btn" onclick="order('${p.name} — Sh ${p.price}')">Order</button></div></div></article>`).join("");
+ grid.innerHTML=filtered.map(p=>`<article class="dynamic-card"><div class="dynamic-art" style="background-position:${(p.art-1)*25}% 50%"></div><div class="dynamic-body"><span class="dynamic-tag">Coast Bitez Snack</span><h3>${p.name}</h3><p>${p.description}</p><div class="dynamic-bottom"><strong class="dynamic-price">Sh ${p.price}</strong><button class="order-btn" onclick="addToCart('${p.name}')">Add to Cart</button></div></div></article>`).join("");
  empty.hidden=filtered.length!==0;
 }
 document.getElementById("productSearch").addEventListener("input",renderProducts);
