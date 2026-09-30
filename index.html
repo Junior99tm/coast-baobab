@@ -139,7 +139,7 @@ nav.links a:first-child{border-bottom:3px solid var(--orange);color:var(--green)
 .dynamic-body h3{font-size:1.02rem;margin:5px 0;color:#2b2119}
 .dynamic-body p{font-size:.82rem;color:var(--muted);margin-bottom:12px}
 .dynamic-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto}
-.dynamic-price{font-size:1rem;color:var(--orange);font-weight:800}
+.dynamic-price{font-size:1rem;color:var(--orange);font-weight:800}.coming-soon{font-size:.82rem;color:var(--muted);font-weight:800;letter-spacing:.06em}
 .order-btn{border:0;background:var(--green);color:#fff;padding:8px 13px;border-radius:22px;font-weight:800;cursor:pointer}
 .no-products{text-align:center;color:var(--muted);padding:30px}
 
@@ -492,11 +492,12 @@ function openWhatsApp(product){
 }
 
 const COAST_BITEZ_PRODUCTS=[
- {name:"Tambi",price:40,description:"A crunchy coastal favourite, prepared for easy snacking.",art:1},
- {name:"Tende",price:40,description:"Sweet, rich and snackable — a classic coastal treat.",art:2},
- {name:"Mabuyu",price:60,description:"A colourful, tangy-sweet snack with a bold coastal taste.",art:3},
- {name:"Labania",price:100,description:"A traditional sweet snack, packed ready for sharing.",art:4},
- {name:"Roasted Peanuts",price:100,description:"Crunchy roasted peanuts for a simple, satisfying bite.",art:5}
+ {name:"Tambi",price:null,description:"A crunchy coastal favourite — coming soon.",art:1,available:false},
+ {name:"Tende",price:null,description:"A sweet coastal treat — coming soon.",art:2,available:false},
+ {name:"Mabuyu",price:null,description:"A colourful, tangy-sweet coastal snack — coming soon.",art:3,available:false},
+ {name:"Labania",price:null,description:"A traditional sweet snack — coming soon.",art:4,available:false},
+ {name:"Roasted Peanuts",price:null,description:"Crunchy roasted peanuts — coming soon.",art:5,available:false},
+ {name:"Baobab",price:100,description:"Our signature baobab snack.",art:5,available:true}
 ];
 
 function addToCart(productName){
@@ -643,7 +644,7 @@ function renderProducts(){
   const filterMatch=active==="all"||(active==="under50"&&p.price<50)||(active==="under100"&&p.price<100)||(active==="100"&&p.price===100);
   return textMatch&&filterMatch;
  });
- grid.innerHTML=filtered.map(p=>`<article class="dynamic-card"><div class="dynamic-art" style="background-position:${(p.art-1)*25}% 50%"></div><div class="dynamic-body"><span class="dynamic-tag">Coast Bitez Snack</span><h3>${p.name}</h3><p>${p.description}</p><div class="dynamic-bottom"><strong class="dynamic-price">Sh ${p.price}</strong><button class="order-btn" onclick="addToCart('${p.name}')">Add to Cart</button></div></div></article>`).join("");
+ grid.innerHTML=filtered.map(p=>`<article class="dynamic-card"><div class="dynamic-art" style="background-position:${(p.art-1)*25}% 50%"></div><div class="dynamic-body"><span class="dynamic-tag">Coast Bitez Snack</span><h3>${p.name}</h3><p>${p.description}</p><div class="dynamic-bottom">${p.available ? `<strong class="dynamic-price">Sh 100</strong><button class="order-btn" onclick="addToCart('${p.name}')">Add to Cart</button>` : `<strong class="coming-soon">COMING SOON</strong>`}</div></div></article>`).join("");
  empty.hidden=filtered.length!==0;
 }
 document.getElementById("productSearch").addEventListener("input",renderProducts);
